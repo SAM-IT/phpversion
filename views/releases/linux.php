@@ -27,9 +27,7 @@ $this->title = 'My Yii Application';
                 'attribute' => 'supported',
                 'format' => 'boolean',
                 'filter' => \yii\bootstrap\Html::activeCheckboxList($filterModel, 'supported', [
-                    "all" => "All",
                     true => "Yes",
-                    false => "No"
                 ], [
                     'class' => 'form-control'
                 ])

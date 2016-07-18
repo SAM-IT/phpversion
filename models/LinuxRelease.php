@@ -5,6 +5,7 @@ namespace app\models;
 
 
 use app\helpers\DomTableHelper;
+use app\helpers\Http;
 use Carbon\Carbon;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
@@ -55,9 +56,8 @@ class LinuxRelease extends Model
     {
         if (!isset(self::$cache['debian'])) {
             libxml_use_internal_errors(true);
-            /** @var DOMDocument $dom */
             $dom = new \DOMDocument();
-            $dom->loadHTMLFile('https://wiki.debian.org/DebianReleases');
+            $dom->loadHTML(Http::get('https://wiki.debian.org/DebianReleases'));
             $records = [];
             /** @var DOMNode $node */
             foreach ($dom->getElementsByTagName('table')->item(0)->getElementsByTagName('tr') as $row) {
@@ -179,10 +179,9 @@ class LinuxRelease extends Model
     public static function findCentOSReleases()
     {
         return [];
-        /** @var \DOMDocument $dom */
         libxml_use_internal_errors(true);
         $dom = new \DOMDocument();
-        $dom->loadHTMLFile("https://en.wikipedia.org/wiki/CentOS");
+        $dom->loadHTML(Http::get("https://en.wikipedia.org/wiki/CentOS"));
         foreach($dom->getElementsByTagName('table') as $table) {
             if ($table->getElementsByTagName('th')->item(1)->textContent == "Release date") {
                 echo '<pre>';
@@ -209,10 +208,9 @@ class LinuxRelease extends Model
 
     public static function findRedHatReleases()
     {
-        /** @var \DOMDocument $dom */
         libxml_use_internal_errors(true);
         $dom = new \DOMDocument();
-        $dom->loadHTMLFile("https://access.redhat.com/support/policy/updates/errata/");
+        $dom->loadHTML(Http::get("https://access.redhat.com/support/policy/updates/errata/"));
         // find the table.
         /**
          * \DOMNode $table

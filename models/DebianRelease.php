@@ -4,6 +4,8 @@
 namespace app\models;
 
 
+use app\helpers\Http;
+
 class DebianRelease extends LinuxRelease
 {
     private static $phpReleases = [];
@@ -20,7 +22,7 @@ class DebianRelease extends LinuxRelease
                 "https://sources.debian.net/api/src/php7.0",
             ];
             do {
-                $json = json_decode(file_get_contents(array_pop($urls)), true);
+                $json = json_decode(Http::get(array_pop($urls)), true);
                 if (isset($json['next_collection_link'])) {
                     $urls[] = $json['next_collection_link'];
                 }

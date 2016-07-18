@@ -4,6 +4,7 @@
 namespace app\models;
 
 use yii\helpers\StringHelper;
+use app\helpers\Http;
 
 class UbuntuRelease extends LinuxRelease
 {
@@ -20,7 +21,7 @@ class UbuntuRelease extends LinuxRelease
             ];
             $entries = [];
             do {
-                $json = json_decode(file_get_contents(array_pop($urls)), true);
+                $json = json_decode(Http::get(array_pop($urls)), true);
                 if (isset($json['next_collection_link'])) {
                     $urls[] = $json['next_collection_link'];
                 }

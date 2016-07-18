@@ -178,6 +178,7 @@ class LinuxRelease extends Model
 
     public static function findCentOSReleases()
     {
+        return [];
         /** @var \DOMDocument $dom */
         libxml_use_internal_errors(true);
         $dom = new \DOMDocument();

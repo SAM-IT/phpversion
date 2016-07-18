@@ -11,8 +11,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        This is the About page. You may modify the following file to customize its content:
+        This is a simple web app that scrapes several APIs and wikis to help you find out what you should use as your minimum required PHP version.
     </p>
 
-    <code><?= __FILE__ ?></code>
 </div>

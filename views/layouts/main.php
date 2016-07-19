@@ -18,7 +18,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode(\Yii::$app->name) ?></title>
     <?php $this->head() ?>
     <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -68,6 +68,7 @@ AppAsset::register($this);
     ?>
 
     <div class="container">
+        <div class="ad" style="text-align: center;">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- PHP Version Checker -->
 <ins class="adsbygoogle"
@@ -77,6 +78,7 @@ AppAsset::register($this);
 <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
+            </div>
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>

@@ -16,7 +16,8 @@ use yii\validators\SafeValidator;
 /**
  * Class LinuxRelease
  * @package app\models
- * @property string key The unique identifier for this release.
+ * @property string $key The unique identifier for this release.
+ * @property PhpRelease $mostRecentPhp The most recent php release.
  */
 class LinuxRelease extends Model
 {
@@ -272,10 +273,21 @@ class LinuxRelease extends Model
         );
     }
 
+    private $_recentPhp;
     public function getMostRecentPhp()
     {
-        $all = $this->phpReleases();
-        ArrayHelper::multisort($all, 'PHPVersion');
-        return array_pop($all);
+        if (!isset($this->_recentPhp)) {
+            $all = $this->phpReleases();
+            ArrayHelper::multisort($all, 'PHPVersion');
+
+            $this->_recentPhp = array_pop($all);
+        }
+        return $this->_recentPhp;
     }
+
+    public function getPhpSupported()
+    {
+        return isset($this->mostRecentPhp) && $this->mostRecentPhp->supported;
+    }
+
 }

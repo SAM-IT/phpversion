@@ -20,6 +20,7 @@ use yii\validators\SafeValidator;
 class LinuxReleaseFilter extends LinuxRelease
 {
     protected $_supported;
+    protected $_phpSupported;
     public $codeName;
     /**
      * @var Carbon
@@ -48,11 +49,21 @@ class LinuxReleaseFilter extends LinuxRelease
         return $this->_supported;
     }
 
+    public function getPhpSupported()
+    {
+        return $this->_phpSupported;
+    }
+
     public function setDistribution($value) {
         $this->_distribution = $value;
     }
+
     public function setSupported($value) {
         $this->_supported = $value === "" ? null : (bool) $value;
+    }
+
+    public function setPhpSupported($value) {
+        $this->_phpSupported = $value === "" ? null : (bool) $value;
     }
 
     public function rules()
@@ -70,6 +81,7 @@ class LinuxReleaseFilter extends LinuxRelease
         $result[] = 'distribution';
         $result[] = 'version';
         $result[] = 'supported';
+        $result[] = 'phpSupported';
         return $result;
     }
 
@@ -90,18 +102,23 @@ class LinuxReleaseFilter extends LinuxRelease
     public function search()
     {
         $models = $this->filter(LinuxRelease::findAll());
-
+        $sortAttributes = ArrayHelper::map($this->attributes(), function($attribute) { return $attribute; }, function($attribute) {
+            return [
+                'asc' => [$attribute => SORT_ASC],
+                'desc' => [$attribute => SORT_DESC],
+                'label' => $attribute
+            ];
+        });
+        $sortAttributes['mostRecentPhp.PHPVersion'] = [
+            'asc' => ['mostRecentPhp.PHPVersion' => SORT_ASC],
+            'desc' => ['mostRecentPhp.PHPVersion' => SORT_DESC],
+            'label' => 'mostRecentPhp.PHPVersion'
+        ];
         $result = new \yii\data\ArrayDataProvider([
             'key' => 'key',
             'allModels' => $models,
             'sort' => [
-                'attributes' => ArrayHelper::map($this->attributes(), function($attribute) { return $attribute; }, function($attribute) {
-                    return [
-                        'asc' => [$attribute => SORT_ASC],
-                        'desc' => [$attribute => SORT_DESC],
-                        'label' => $attribute
-                    ];
-                })
+                'attributes' => $sortAttributes
             ]
         ]);
         return $result;

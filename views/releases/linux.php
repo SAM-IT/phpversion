@@ -8,6 +8,13 @@ $this->title = 'My Yii Application';
 ?>
 <div class="site-index">
     <h3>This page should help you to decide what minimum PHP version you should require for your project!</h3>
+    <div class="well well-lg">
+        <ul>
+            <li>All data on this page is gathered using publicly available APIs or by scraping wiki pages for specific information.</li>
+            <li>For performance reasons the data is cached for 24 hours.</li>
+            <li>The source of this website is available at <?= \yii\bootstrap\Html::a("GitHub", "https://github.com/SAM-IT/phpversion"); ?></li>
+        </ul>
+    </div>
     <p>
 
 

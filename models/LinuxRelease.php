@@ -139,7 +139,9 @@ class LinuxRelease extends Model
 //            $result->key = $e['self_link'];
                 $release->version = $e['version'];
                 // Set end of life date, use heuristics: 5 years for LTS, 9 months otherwise: http://www.ubuntu.com/info/release-end-of-life
-                if (strpos($e['description'], 'LTS') !== false) {
+                if (strpos($e['description'], 'LTS') !== false
+                || $release->getVersion() == '14.04' // 14.04 doesn't have LTS in its description for some reason.
+                ) {
                     $release->endOfLifeDate = (new Carbon($release->releaseDate))->addYears(5);
                 } else {
                     $release->endOfLifeDate = (new Carbon($release->releaseDate))->addMonths(9);
